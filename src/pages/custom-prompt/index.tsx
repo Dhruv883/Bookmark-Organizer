@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Button } from "@/components/ui/button";
-import { Send } from "lucide-react";
+import { Send, MessageSquare } from "lucide-react";
 import { useState } from "react";
 import { Breadcrumb } from "@/components/Breadcrumb";
 
@@ -19,7 +19,13 @@ export default function CustomPrompt() {
     <div className="flex flex-col h-full bg-background">
       <div className="px-5 pt-6">
         <Breadcrumb
-          items={[{ label: "Custom Reorganization", href: "/custom-prompt" }]}
+          items={[
+            {
+              label: "Custom Reorganization",
+              href: "/custom-prompt",
+              icon: MessageSquare,
+            },
+          ]}
         />
       </div>
 

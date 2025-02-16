@@ -48,7 +48,11 @@ export default function Reorganize() {
   return (
     <div className="flex flex-col h-full bg-background">
       <div className="px-5 pt-6">
-        <Breadcrumb items={[{ label: "Reorganize", href: "/reorganize" }]} />
+        <Breadcrumb
+          items={[
+            { label: "Reorganize", href: "/reorganize", icon: FolderTree },
+          ]}
+        />
       </div>
 
       <main className="flex-1 overflow-y-auto p-4">

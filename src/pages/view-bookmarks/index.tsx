@@ -1,8 +1,14 @@
 import React from "react";
 
-import { ChevronRight, Folder, Globe, ChevronDown } from "lucide-react";
+import {
+  ChevronRight,
+  Folder,
+  Globe,
+  ChevronDown,
+  BookmarkIcon,
+} from "lucide-react";
 import { useState } from "react";
-import { Breadcrumb } from "@/components/BreadCrumb";
+import { Breadcrumb } from "@/components/Breadcrumb";
 
 type BookmarkNode = {
   id: string;
@@ -306,7 +312,13 @@ export default function ViewBookmarks() {
     <div className="flex flex-col h-full bg-background text-foreground">
       <div className="px-5 pt-6">
         <Breadcrumb
-          items={[{ label: "View Bookmarks", href: "/view-bookmarks" }]}
+          items={[
+            {
+              label: "View Bookmarks",
+              href: "/view-bookmarks",
+              icon: BookmarkIcon,
+            },
+          ]}
         />{" "}
       </div>
 
