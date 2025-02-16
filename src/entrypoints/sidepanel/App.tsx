@@ -16,7 +16,7 @@ const App = () => {
         <Route path="/custom-prompt" element={<CustomPrompt />} />
         <Route path="/view-bookmarks" element={<ViewBookmarks />} />
         <Route path="/reorganize" element={<Reorganize />} />
-        <Route path="/smart-folders" element={<SmartFolders />} />
+        {/* <Route path="/smart-folders" element={<SmartFolders />} /> */}
       </Routes>
     </div>
   );

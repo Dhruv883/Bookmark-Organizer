@@ -304,10 +304,10 @@ function BookmarkTree({
 export default function ViewBookmarks() {
   return (
     <div className="flex flex-col h-full bg-background text-foreground">
-      <div className="px-4 py-3 border-b border-border">
+      <div className="px-5 pt-6">
         <Breadcrumb
           items={[{ label: "View Bookmarks", href: "/view-bookmarks" }]}
-        />
+        />{" "}
       </div>
 
       <main className="flex-1 overflow-y-auto px-4">

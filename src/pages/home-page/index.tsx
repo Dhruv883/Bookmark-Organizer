@@ -1,7 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { useState } from "react";
-
 import {
   FolderTree,
   Brain,
@@ -11,9 +9,38 @@ import {
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-
-import { Breadcrumb } from "@/components/BreadCrumb";
+import { Breadcrumb } from "@/components/Breadcrumb";
 import { Modal } from "@/components/Modal";
+import { NavigationCard } from "@/components/NavigationCard";
+
+const navigationItems = [
+  {
+    icon: BookmarkIcon,
+    title: "View Bookmarks",
+    description: "Browse your current bookmarks",
+    to: "/view-bookmarks",
+  },
+  {
+    icon: FolderTree,
+    title: "Reorganize",
+    description: "AI-powered bookmark organization",
+    to: "/reorganize",
+  },
+  {
+    icon: Brain,
+    title: "Smart Folders",
+    description: "Automated dynamic folder creation",
+    to: "/",
+    isDisabled: true,
+    comingSoon: true,
+  },
+  {
+    icon: MessageSquare,
+    title: "Custom Reorganization",
+    description: "Provide specific organization instructions",
+    to: "/custom-prompt",
+  },
+];
 
 export default function Home() {
   const [isResetModalOpen, setIsResetModalOpen] = useState(false);
@@ -25,98 +52,21 @@ export default function Home() {
 
   return (
     <div className="flex flex-col h-full bg-[var(--background)] text-[var(--text)]">
-      <div className="px-4 py-3 border-b border-gray-200">
+      <div className="px-5 pt-6">
         <Breadcrumb items={[]} />
       </div>
 
-      <div className="px-4 py-4 flex flex-col gap-4">
-        <Link to="/view-bookmarks">
-          <div className="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors">
-            <div className="flex items-center gap-3 text-[var(--text)]">
-              <div className="w-5 h-5 flex items-center justify-center">
-                <BookmarkIcon className="w-4 h-4" />
-              </div>
-              <div>
-                <div className="font-medium">View Bookmarks</div>
-                <div className="text-sm text-gray-500">
-                  Browse your current bookmarks
-                </div>
-              </div>
-            </div>
-          </div>
-        </Link>
+      <div className="px-4 py-2 flex flex-col gap-4">
+        {navigationItems.map((item) => (
+          <NavigationCard key={item.title} {...item} />
+        ))}
 
-        <Link to="/reorganize">
-          <div className="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors">
-            <div className="flex items-center gap-3 text-[var(--text)]">
-              <div className="w-5 h-5 flex items-center justify-center">
-                <FolderTree className="w-4 h-4" />
-              </div>
-              <div>
-                <div className="font-medium">Reorganize</div>
-                <div className="text-sm text-gray-500">
-                  AI-powered bookmark organization
-                </div>
-              </div>
-            </div>
-          </div>
-        </Link>
-        <Link to="/">
-          <div className="bg-gray-50 rounded-xl p-4 opacity-75">
-            <div className="flex items-center gap-3 text-[var(--text)]">
-              <div className="w-5 h-5 flex items-center justify-center">
-                <Brain className="w-4 h-4" />
-              </div>
-              <div className="flex-1">
-                <div className="font-medium flex items-center gap-2">
-                  Smart Folders
-                  <Badge
-                    variant="secondary"
-                    className="bg-[var(--secondary)] text-[var(--text)] rounded-full text-xs"
-                  >
-                    Coming Soon
-                  </Badge>
-                </div>
-                <div className="text-sm text-gray-500">
-                  Automated dynamic folder creation
-                </div>
-              </div>
-            </div>
-          </div>
-        </Link>
-
-        <Link to="/custom-prompt">
-          <div className="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors">
-            <div className="flex items-center gap-3 text-[var(--text)]">
-              <div className="w-5 h-5 flex items-center justify-center">
-                <MessageSquare className="w-4 h-4" />
-              </div>
-              <div>
-                <div className="font-medium">Custom Reorganization</div>
-                <div className="text-sm text-gray-500">
-                  Provide specific organization instructions
-                </div>
-              </div>
-            </div>
-          </div>
-        </Link>
-
-        <div
-          className="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors cursor-pointer"
+        <NavigationCard
+          icon={RotateCcw}
+          title="Reset Bookmarks"
+          description="Restore original bookmark structure"
           onClick={() => setIsResetModalOpen(true)}
-        >
-          <div className="flex items-center gap-3 text-[var(--text)]">
-            <div className="w-5 h-5 flex items-center justify-center">
-              <RotateCcw className="w-4 h-4" />{" "}
-            </div>
-            <div>
-              <div className="font-medium">Reset Bookmarks</div>
-              <div className="text-sm text-gray-500">
-                Restore original bookmark structure
-              </div>
-            </div>
-          </div>
-        </div>
+        />
       </div>
 
       <Modal
