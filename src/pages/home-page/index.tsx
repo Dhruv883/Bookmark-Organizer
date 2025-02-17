@@ -28,8 +28,8 @@ const navigationItems = [
   },
   {
     icon: Brain,
-    title: "Smart Folders",
-    description: "Automated dynamic folder creation",
+    title: "Auto Categorization",
+    description: "Auto-Categorize new  bookmarks",
     to: "/",
     isDisabled: true,
     comingSoon: true,
@@ -56,7 +56,7 @@ export default function Home() {
         <Breadcrumb items={[]} />
       </div>
 
-      <div className="px-4 py-2 flex flex-col gap-4">
+      <div className="px-4 flex flex-col gap-4">
         {navigationItems.map((item) => (
           <NavigationCard key={item.title} {...item} />
         ))}
