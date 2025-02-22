@@ -24,9 +24,9 @@ export function NavigationCard({
 }: NavigationCardProps) {
   const content = (
     <div
-      className={`bg-gray-50 rounded-xl p-4 ${
-        !isDisabled ? "hover:bg-gray-100" : ""
-      } transition-colors ${isDisabled ? "opacity-75" : ""}`}
+      className={`bg-gray-50 rounded-xl p-4 transition-colors ${
+        isDisabled ? "opacity-75" : ""
+      }`}
     >
       <div className="flex items-center gap-3 text-[var(--text)]">
         <div className="w-5 h-5 flex items-center justify-center">

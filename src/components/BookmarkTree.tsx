@@ -1,11 +1,13 @@
 import React from "react";
-
 import { ChevronRight, Folder, ChevronDown, Link } from "lucide-react";
 import { useState } from "react";
+import { Bookmark, BookmarkFolder, SimplifiedBookmark } from "@/types/";
 
-import { Bookmark, BookmarkFolder } from "@/types/";
+type BookmarkNodeType = Bookmark | SimplifiedBookmark;
 
-function isBookmarkFolder(bookmark: Bookmark): bookmark is BookmarkFolder {
+function isBookmarkFolder(
+  bookmark: BookmarkNodeType
+): bookmark is BookmarkFolder | SimplifiedBookmark {
   return "children" in bookmark;
 }
 
@@ -13,7 +15,7 @@ export function BookmarkTree({
   node,
   level = 0,
 }: {
-  node: Bookmark;
+  node: BookmarkNodeType;
   level?: number;
 }) {
   const [isOpen, setIsOpen] = useState(level < 2);
@@ -23,7 +25,7 @@ export function BookmarkTree({
     // BOOKMARK ITEM
     return (
       <div
-        className="relative flex items-center gap-2 py-1.5 px-2 text-sm hover:bg-accent hover:text-accent-foreground transition-colors rounded-md group font-normal"
+        className="relative flex items-center gap-2 py-1.5 px-2  text-sm hover:bg-accent hover:text-accent-foreground transition-colors rounded-md group font-normal"
         style={{
           marginLeft: paddingLeft,
           width: `calc(100% - ${paddingLeft})`,

@@ -36,9 +36,11 @@ const navigationItems = [
   },
   {
     icon: MessageSquare,
-    title: "Custom Reorganization",
+    title: "Guided Organization",
     description: "Provide specific organization instructions",
     to: "/custom-prompt",
+    isDisabled: true,
+    comingSoon: true,
   },
 ];
 

@@ -32,3 +32,13 @@ export interface FlatBookmark {
   title: string;
   url: string;
 }
+
+export interface SuggestedBookmark {
+  title: string;
+  url: string;
+}
+
+export interface BookmarkCategory {
+  name: string;
+  bookmarks: SuggestedBookmark[];
+}

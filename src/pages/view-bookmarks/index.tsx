@@ -26,7 +26,7 @@ export default function ViewBookmarks() {
       </div>
 
       <main className="flex-1 overflow-y-auto px-4">
-        <div className="space-y-1">
+        <div className="space-y-1 pb-4">
           {bookmarks.map((bookmark) => (
             <BookmarkTree key={bookmark.id} node={bookmark} />
           ))}
