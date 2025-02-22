@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { FlatBookmark } from "@/types/";
 
-const genAI = new GoogleGenerativeAI("AIzaSyAdDBY9PEygsvXdgz9-oMmgj6VODAgSgy4");
+const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 
 interface CategoryResponse {
   name: string;
