@@ -8,10 +8,10 @@ import {
   BookmarkIcon,
 } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { Modal } from "@/components/Modal";
 import { NavigationCard } from "@/components/NavigationCard";
+import { useBookmarks } from "@/contexts/BookmarkContext";
 
 const navigationItems = [
   {
@@ -46,6 +46,7 @@ const navigationItems = [
 
 export default function Home() {
   const [isResetModalOpen, setIsResetModalOpen] = useState(false);
+  const { originalBookmarks } = useBookmarks();
 
   const handleReset = () => {
     console.log("Resetting bookmarks...");

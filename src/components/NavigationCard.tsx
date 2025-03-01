@@ -25,7 +25,7 @@ export function NavigationCard({
   const content = (
     <div
       className={`bg-gray-50 rounded-xl p-4 transition-colors ${
-        isDisabled ? "opacity-75" : ""
+        isDisabled ? "opacity-75 cursor-default" : ""
       }`}
     >
       <div className="flex items-center gap-3 text-[var(--text)]">
