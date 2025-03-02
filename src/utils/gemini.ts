@@ -66,7 +66,6 @@ ${JSON.stringify(bookmarks)};
 
     const ans = JSON.parse(cleanedText);
 
-    console.log("Ans: ", ans);
     return ans;
   } catch (error) {
     console.error("Error generating content:", error);

@@ -5,7 +5,7 @@ import { useBookmarks } from "@/contexts/BookmarkContext";
 import { reorganizeBookmarks } from "@/utils/gemini";
 import { Button } from "@/components/ui/button";
 import { BookmarkTree } from "@/components/BookmarkTree";
-import { SimplifiedBookmark } from "@/types/";
+import { BookmarksTree, SimplifiedBookmark } from "@/types/";
 import { convertToBookmarkTree } from "@/utils/convertBookmarks";
 
 export default function Reorganize() {
@@ -16,7 +16,20 @@ export default function Reorganize() {
     SimplifiedBookmark[] | null
   >(null);
 
-  const handleApplyChanges = () => {};
+  const handleApplyChanges = async () => {
+    if (!suggestedBookmarks) return;
+
+    setIsLoading(true);
+    try {
+      await applyBookmarks(suggestedBookmarks as BookmarksTree);
+      await refreshBookmarks();
+      setSuggestedBookmarks(null);
+    } catch (error) {
+      console.error("Error applying bookmarks:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleReorganization = async () => {
     setIsProcessing(true);
@@ -32,6 +45,8 @@ export default function Reorganize() {
       setIsProcessing(false);
     }
   };
+
+  console.log("Suggested Bookmarks: ", suggestedBookmarks);
 
   return (
     <div className="flex flex-col h-full bg-background text-foreground">
@@ -118,7 +133,7 @@ export default function Reorganize() {
             </Button>
             <Button
               className="w-44 bg-primary text-primary-foreground hover:bg-primary/90"
-              onDoubleClick={handleApplyChanges}
+              onClick={handleApplyChanges}
             >
               <Check className="w-4 h-4 mr-1" />
               Apply

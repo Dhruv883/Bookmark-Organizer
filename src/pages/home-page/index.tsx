@@ -12,6 +12,7 @@ import { Breadcrumb } from "@/components/Breadcrumb";
 import { Modal } from "@/components/Modal";
 import { NavigationCard } from "@/components/NavigationCard";
 import { useBookmarks } from "@/contexts/BookmarkContext";
+import { BookmarksTree } from "@/types";
 
 const navigationItems = [
   {
@@ -48,8 +49,14 @@ export default function Home() {
   const [isResetModalOpen, setIsResetModalOpen] = useState(false);
   const { originalBookmarks } = useBookmarks();
 
-  const handleReset = () => {
-    console.log("Resetting bookmarks...");
+  const handleReset = async () => {
+    try {
+      if (!originalBookmarks) return;
+
+      await applyBookmarks(originalBookmarks as BookmarksTree);
+    } catch (error) {
+      console.error("Error applying bookmarks:", error);
+    }
     setIsResetModalOpen(false);
   };
 
