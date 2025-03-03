@@ -24,7 +24,7 @@ export function NavigationCard({
 }: NavigationCardProps) {
   const content = (
     <div
-      className={`bg-gray-50 rounded-xl p-4 transition-colors ${
+      className={`bg-gray-50 rounded-xl p-4 transition-colors  ${
         isDisabled ? "opacity-75 cursor-default" : ""
       }`}
     >

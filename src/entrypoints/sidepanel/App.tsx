@@ -12,7 +12,7 @@ import { BookmarkProvider } from "@/contexts/BookmarkContext";
 const App = () => {
   return (
     <BookmarkProvider>
-      <div>
+      <div className="h-screen">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/custom-prompt" element={<CustomPrompt />} />
