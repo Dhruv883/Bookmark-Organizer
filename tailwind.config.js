@@ -37,6 +37,13 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+
+        bgColor: "#1e2125",
+        cardColor: "#161a1d",
+        textColor: "#ffffffcc",
+        badgeTextColor: "#569DFF",
+        badgeColor: "#1D2B41",
+        secondaryTextColor: "#9FADBD",
       },
       borderRadius: {
         lg: `var(--radius)`,

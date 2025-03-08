@@ -22,7 +22,7 @@ export function Modal({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 ">
-      <div className="bg-white rounded-lg p-6 w-11/12 max-w-md">
+      <div className="bg-bgColor rounded-lg p-6 w-11/12 max-w-md text-textColor">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">{title}</h2>
           <Button variant="ghost" size="icon" onClick={onClose}>
@@ -31,10 +31,18 @@ export function Modal({
         </div>
         <div className="mb-6">{children}</div>
         <div className="flex justify-end space-x-2">
-          <Button variant="outline" onClick={onClose}>
+          <Button
+            className="bg-cardColor hover:bg-cardColor/80"
+            onClick={onClose}
+          >
             Cancel
           </Button>
-          <Button onClick={onConfirm}>Confirm</Button>
+          <Button
+            onClick={onConfirm}
+            className="bg-white text-black hover:bg-white/80"
+          >
+            Confirm
+          </Button>
         </div>
       </div>
     </div>

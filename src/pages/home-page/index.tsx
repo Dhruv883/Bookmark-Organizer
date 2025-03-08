@@ -61,7 +61,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col h-full bg-[var(--background)] text-[var(--text)]">
+    <div className="flex flex-col h-full bg-bgColor text-[var(--text)]">
       <div className="px-5 pt-6">
         <Breadcrumb items={[]} />
       </div>

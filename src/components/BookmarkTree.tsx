@@ -25,7 +25,7 @@ export function BookmarkTree({
     // BOOKMARK ITEM
     return (
       <div
-        className="relative flex items-center gap-2 py-1.5 px-2  text-sm hover:bg-accent hover:text-accent-foreground transition-colors rounded-md group font-normal"
+        className="relative flex items-center gap-2 py-1.5 px-2  text-sm hover:bg-badgeColor hover:text-badgeTextColor transition-colors rounded-md group font-normal"
         style={{
           marginLeft: paddingLeft,
           width: `calc(100% - ${paddingLeft})`,
@@ -33,13 +33,13 @@ export function BookmarkTree({
       >
         {level > 0 && (
           <div
-            className="absolute left-0 top-0 bottom-0 border-l-2 border-border group-hover:border-muted-foreground"
+            className="absolute left-0 top-0 bottom-0 border-l-2 border-border group-hover:border-badgeTextColor"
             style={{ marginLeft: `-${4}px` }}
           />
         )}
 
         <div>
-          <Link className="w-4 h-4 min-w-4 text-primary" />
+          <Link className="w-4 h-4 min-w-4 text-secondaryTextColor group-hover:text-badgeTextColor" />
         </div>
         <a
           href={node.url}
@@ -55,26 +55,28 @@ export function BookmarkTree({
 
   // BOOKMARK FOLDER
   return (
-    <div className="w-full">
+    <div className="w-full text-textColor">
       <div className="relative group">
         {level > 0 && (
           <div
-            className="absolute left-0 top-0 bottom-0 border-l-2 border-border group-hover:border-muted-foreground"
+            className="absolute left-0 top-0 bottom-0 border-l-2 border-border group-hover:border-badgeTextColor"
             style={{ marginLeft: `${(level - 1) * 16 + 12}px` }}
           />
         )}
         <button
-          className="w-full flex items-center gap-2 py-1.5 px-2 hover:bg-accent hover:text-accent-foreground transition-colors rounded-md"
+          className="w-full flex items-center gap-2 py-1.5 px-2 hover:bg-badgeColor hover:text-black transition-colors rounded-md"
           style={{ marginLeft: paddingLeft }}
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? (
-            <ChevronDown className="w-4 h-4 min-w-4 text-primary" />
+            <ChevronDown className="w-4 h-4 min-w-4 text-secondaryTextColor group-hover:text-badgeTextColor" />
           ) : (
-            <ChevronRight className="w-4 h-4 min-w-4 text-primary" />
+            <ChevronRight className="w-4 h-4 min-w-4 text-secondaryTextColor group-hover:text-badgeTextColor" />
           )}
-          <Folder className="w-4 h-4 min-w-4 text-primary" />
-          <span className="text-sm font-medium truncate">{node.title}</span>
+          <Folder className="w-4 h-4 min-w-4 text-secondaryTextColor group-hover:text-badgeTextColor" />
+          <span className="text-sm font-medium truncate group-hover:text-badgeTextColor">
+            {node.title}
+          </span>
         </button>
       </div>
       {isOpen && (

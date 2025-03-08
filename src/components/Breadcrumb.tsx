@@ -9,8 +9,8 @@ interface BreadcrumbProps {
 
 export function Breadcrumb({ items }: BreadcrumbProps) {
   return (
-    <nav className="flex items-center space-x-2 text-sm text-gray-500 mb-4">
-      <Link to="/" className="flex items-center hover:text-gray-700">
+    <nav className="flex items-center space-x-2 text-sm text-textColor mb-4">
+      <Link to="/" className="flex items-center hover:text-secondaryTextColor">
         <Home className="w-4 h-4 mr-1" />
         Home
       </Link>
@@ -19,7 +19,7 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
           <ChevronRight className="w-4 h-4 mx-1" />
           <Link
             to={item.href}
-            className="flex items-center hover:text-gray-700"
+            className="flex items-center hover:text-secondaryTextColor"
           >
             {item.icon && <item.icon className="w-4 h-4 mr-1" />}
             {item.label}

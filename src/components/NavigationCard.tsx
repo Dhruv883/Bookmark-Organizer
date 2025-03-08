@@ -24,27 +24,27 @@ export function NavigationCard({
 }: NavigationCardProps) {
   const content = (
     <div
-      className={`bg-gray-50 rounded-xl p-4 transition-colors  ${
-        isDisabled ? "opacity-75 cursor-default" : ""
+      className={`bg-cardColor rounded-xl py-4 px-3 transition-colors  ${
+        isDisabled ? "cursor-default" : ""
       }`}
     >
-      <div className="flex items-center gap-3 text-[var(--text)]">
+      <div className="flex items-center gap-3 text-textColor">
         <div className="w-5 h-5 flex items-center justify-center">
           <Icon className="w-4 h-4" />
         </div>
-        <div className="flex-1">
+        <div className="flex-1 space-y-1">
           <div className="font-medium text-sm flex items-center gap-2">
             {title}
             {comingSoon && (
               <Badge
                 variant="outline"
-                className="bg-black text-white rounded-full text-xs"
+                className="bg-badgeColor text-badgeTextColor rounded-full text-xs border-none"
               >
                 Coming Soon
               </Badge>
             )}
           </div>
-          <div className="text-sm text-gray-500">{description}</div>
+          <div className="text-sm text-secondaryTextColor">{description}</div>
         </div>
       </div>
     </div>

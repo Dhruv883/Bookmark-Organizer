@@ -12,7 +12,7 @@ export default function ViewBookmarks() {
   console.log("Simplified Bookmarks:", simplifiedBookmarks);
 
   return (
-    <div className="flex flex-col h-full bg-background text-foreground">
+    <div className="flex flex-col h-full bg-bgColor text-textColor">
       <div className="px-5 pt-6">
         <Breadcrumb
           items={[

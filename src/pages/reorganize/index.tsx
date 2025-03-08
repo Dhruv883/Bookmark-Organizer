@@ -14,7 +14,7 @@ export default function Reorganize() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [suggestedBookmarks, setSuggestedBookmarks] = useState<
     SimplifiedBookmark[] | null
-  >(null);
+  >();
   const [lastReorganized, setLastReorganized] = useState<number | null>(null);
   const [timeRemaining, setTimeRemaining] = useState<number>(0);
 
@@ -100,7 +100,7 @@ export default function Reorganize() {
   };
 
   return (
-    <div className="flex flex-col h-full bg-background text-foreground">
+    <div className="flex flex-col h-full bg-bgColor text-foreground">
       <div className="px-5 pt-6">
         <Breadcrumb
           items={[
@@ -114,10 +114,10 @@ export default function Reorganize() {
       </div>
 
       {isProcessing && (
-        <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 mt-16">
+        <div className="fixed inset-0 bg-bgColor/80 backdrop-blur-sm z-50 mt-16">
           <div className="fixed inset-0 flex flex-col items-center justify-center">
-            <div className="flex flex-col items-center space-y-6 max-w-md mx-auto p-6 text-center">
-              <Loader2 className="h-12 w-12 animate-spin text-primary" />
+            <div className="flex flex-col items-center space-y-6 max-w-md mx-auto p-6 text-center text-textColor">
+              <Loader2 className="h-12 w-12 animate-spin " />
               <div className="space-y-2">
                 <h3 className="text-xl font-medium">
                   Reorganizing your bookmarks
@@ -126,7 +126,7 @@ export default function Reorganize() {
                   Using AI to create a better structure for your bookmarks...
                 </p>
               </div>
-              <div className="mt-4 p-4 bg-muted/50 rounded-lg">
+              <div className="mt-4 p-4 bg-cardColor/50 rounded-lg">
                 <p className="text-sm font-medium text-warning">
                   Please don't close this window while we process your bookmarks
                 </p>
@@ -140,19 +140,19 @@ export default function Reorganize() {
         <main className="flex-1 overflow-y-auto p-4">
           <div className="max-w-2xl mx-auto">
             <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <FolderTree className="w-5 h-5 text-primary" />
+              <div className="flex items-center gap-3 text-textColor">
+                <FolderTree className="w-5 h-5" />
                 <div>
                   <h2 className="text-xl font-semibold">
                     Reorganize Bookmarks
                   </h2>
-                  <p className="text-muted-foreground">
+                  <p className="text-secondaryTextColor">
                     Let AI organize your bookmarks intelligently
                   </p>
                 </div>
               </div>
               <Button
-                className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+                className="w-full bg-badgeColor text-badgeTextColor hover:bg-badgeColor/90"
                 onClick={handleReorganization}
                 disabled={!!lastReorganized}
               >
@@ -171,7 +171,7 @@ export default function Reorganize() {
       )}
 
       {!isProcessing && suggestedBookmarks && (
-        <main className="flex-1 overflow-y-auto px-4">
+        <main className="flex-1 overflow-y-auto px-4 text-white">
           <span className="flex p-2 text-lg font-medium">
             Suggested Bookmarks
           </span>
@@ -183,15 +183,14 @@ export default function Reorganize() {
 
           <div className="flex gap-2 mt-4 mb-6">
             <Button
-              variant="outline"
-              className="w-44"
+              className="w-44 bg-cardColor hover:bg-cardColor/80"
               onClick={() => setSuggestedBookmarks(null)}
             >
               <X className="w-4 h-4 mr-1" />
               Discard
             </Button>
             <Button
-              className="w-44 bg-primary text-primary-foreground hover:bg-primary/90"
+              className="w-44 bg-white text-black hover:bg-white/80"
               onClick={handleApplyChanges}
             >
               <Check className="w-4 h-4 mr-1" />
