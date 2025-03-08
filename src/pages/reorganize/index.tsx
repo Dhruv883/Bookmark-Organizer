@@ -21,7 +21,24 @@ export default function Reorganize() {
   const COOLDOWN_PERIOD = 2 * 60 * 1000;
 
   useEffect(() => {
+    // Load last reorganized timestamp from localStorage on mount
+    const savedLastReorganized = localStorage.getItem("lastReorganized");
+    if (savedLastReorganized) {
+      const timestamp = parseInt(savedLastReorganized, 10);
+      const elapsed = Date.now() - timestamp;
+      if (elapsed < COOLDOWN_PERIOD) {
+        setLastReorganized(timestamp);
+      } else {
+        localStorage.removeItem("lastReorganized");
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     if (lastReorganized) {
+      // Save timestamp to localStorage when lastReorganized changes
+      localStorage.setItem("lastReorganized", lastReorganized.toString());
+
       const interval = setInterval(() => {
         const elapsed = Date.now() - lastReorganized;
         const remaining = Math.max(0, COOLDOWN_PERIOD - elapsed);
@@ -29,6 +46,7 @@ export default function Reorganize() {
 
         if (remaining === 0) {
           setLastReorganized(null);
+          localStorage.removeItem("lastReorganized");
           clearInterval(interval);
         }
       }, 1000);
