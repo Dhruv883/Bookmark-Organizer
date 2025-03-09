@@ -10,13 +10,12 @@ export default function CustomPrompt() {
 
   const handleSubmit = () => {
     if (input.trim()) {
-      console.log("Submitting prompt:", input);
       setInput("");
     }
   };
 
   return (
-    <div className="flex flex-col h-full bg-background">
+    <div className="flex flex-col h-full bg-bgColor text-textColor">
       <div className="px-5 pt-6">
         <Breadcrumb
           items={[
@@ -35,7 +34,7 @@ export default function CustomPrompt() {
             <h2 className="text-xl font-semibold">
               Customize Your Organization
             </h2>
-            <p className="text-muted-foreground">
+            <p className="text-secondaryTextColor">
               Tell AI how you want your bookmarks organized. Be as specific as
               you'd like.
             </p>
@@ -46,11 +45,11 @@ export default function CustomPrompt() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="E.g., 'Group by topics and sort alphabetically within each group'"
-              className="w-full min-h-[200px] p-4 rounded-lg bg-secondary/50 border-0 resize-none focus:ring-1 focus:ring-primary placeholder:text-muted-foreground"
+              className="w-full min-h-[200px] p-4 rounded-lg bg-cardColor outline-none resize-none  placeholder:text-secondaryTextColor"
             />
             <Button
               onClick={handleSubmit}
-              className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+              className="w-full bg-badgeColor text-badgeTextColor hover:bg-badgeColor/80"
               disabled={!input.trim()}
             >
               <Send className="w-4 h-4 mr-2" />

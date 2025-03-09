@@ -13,6 +13,7 @@ import { Modal } from "@/components/Modal";
 import { NavigationCard } from "@/components/NavigationCard";
 import { useBookmarks } from "@/contexts/BookmarkContext";
 import { BookmarksTree } from "@/types";
+import { toast } from "sonner";
 
 const navigationItems = [
   {
@@ -38,7 +39,7 @@ const navigationItems = [
   {
     icon: MessageSquare,
     title: "Guided Organization",
-    description: "Provide specific organization instructions",
+    description: "Provide specific instructions",
     to: "/custom-prompt",
     isDisabled: true,
     comingSoon: true,
@@ -54,8 +55,9 @@ export default function Home() {
       if (!originalBookmarks) return;
 
       await applyBookmarks(originalBookmarks as BookmarksTree);
+      toast.success("Bookmarks reset successfully");
     } catch (error) {
-      console.error("Error applying bookmarks:", error);
+      toast.error("Error while resetting bookmarks");
     }
     setIsResetModalOpen(false);
   };

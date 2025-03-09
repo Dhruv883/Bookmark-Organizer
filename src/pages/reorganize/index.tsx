@@ -21,7 +21,6 @@ export default function Reorganize() {
   const COOLDOWN_PERIOD = 2 * 60 * 1000;
 
   useEffect(() => {
-    // Load last reorganized timestamp from localStorage on mount
     const savedLastReorganized = localStorage.getItem("lastReorganized");
     if (savedLastReorganized) {
       const timestamp = parseInt(savedLastReorganized, 10);
@@ -36,7 +35,6 @@ export default function Reorganize() {
 
   useEffect(() => {
     if (lastReorganized) {
-      // Save timestamp to localStorage when lastReorganized changes
       localStorage.setItem("lastReorganized", lastReorganized.toString());
 
       const interval = setInterval(() => {
@@ -62,9 +60,9 @@ export default function Reorganize() {
       await applyBookmarks(suggestedBookmarks as BookmarksTree);
       await refreshBookmarks();
       setSuggestedBookmarks(null);
+      toast.error("Applied bookmarks successfully");
     } catch (error) {
-      console.error("Error applying bookmarks:", error);
-    } finally {
+      toast.error("Error applying bookmarks");
     }
   };
 

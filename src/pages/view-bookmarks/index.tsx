@@ -7,10 +7,6 @@ import { useBookmarks } from "@/contexts/BookmarkContext";
 export default function ViewBookmarks() {
   const { bookmarks, flatBookmarks, simplifiedBookmarks } = useBookmarks();
 
-  console.log("Bookmarks:", bookmarks);
-  console.log("Flat Bookmarks:", flatBookmarks);
-  console.log("Simplified Bookmarks:", simplifiedBookmarks);
-
   return (
     <div className="flex flex-col h-full bg-bgColor text-textColor">
       <div className="px-5 pt-6">

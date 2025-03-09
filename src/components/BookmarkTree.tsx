@@ -64,7 +64,7 @@ export function BookmarkTree({
           />
         )}
         <button
-          className="w-full flex items-center gap-2 py-1.5 px-2 hover:bg-badgeColor hover:text-black transition-colors rounded-md"
+          className="w-full flex items-center gap-2 p-1.5 hover:bg-badgeColor hover:text-black transition-colors rounded-md"
           style={{ marginLeft: paddingLeft }}
           onClick={() => setIsOpen(!isOpen)}
         >
