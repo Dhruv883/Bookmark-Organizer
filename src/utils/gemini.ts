@@ -1,24 +1,21 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { FlatBookmark } from "@/types/";
+import { getApiKey } from "@/utils/apiUtils";
 
-const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
-
-const MODELS = [
-  "gemini-2.0-flash",
-  "gemini-2.0-flash-lite",
-  "gemini-1.5-flash",
-];
+const MODEL = "gemini-2.0-flash";
 
 export async function reorganizeBookmarks(
-  bookmarks: FlatBookmark[],
-  modelIndex: number = 0
+  bookmarks: FlatBookmark[]
 ): Promise<any> {
-  if (modelIndex >= MODELS.length) {
-    console.error("All models exhausted. Please try again later.");
+  const apiKey = await getApiKey();
+
+  if (!apiKey) {
+    console.error("No Gemini API key found in extension storage");
     return null;
   }
 
-  const model = genAI.getGenerativeModel({ model: MODELS[modelIndex] });
+  const genAI = new GoogleGenerativeAI(apiKey);
+  const model = genAI.getGenerativeModel({ model: MODEL });
 
   const prompt = `Organize these bookmarks into logical categories. Return ONLY a JSON array of objects with this EXACT structure, no other text or explanation:
 
@@ -71,12 +68,10 @@ ${JSON.stringify(bookmarks)};
 
     return ans;
   } catch (error: any) {
-    console.error(`Error with model ${MODELS[modelIndex]}:`, error);
+    console.error(`Error with model ${MODEL}:`, error);
 
-    // If error includes rate limit message, try next model
     if (error.message?.includes("Resource has been exhausted")) {
-      console.log(`Switching to model ${MODELS[modelIndex + 1]}`);
-      return reorganizeBookmarks(bookmarks, modelIndex + 1);
+      console.error("API rate limit exceeded");
     }
 
     return null;

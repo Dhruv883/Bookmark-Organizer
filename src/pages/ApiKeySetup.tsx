@@ -16,19 +16,15 @@ const ApiKeySetup = () => {
       return;
     }
 
-    // Store API key in Chrome extension storage
     chrome.storage.local.set({ geminiApiKey: apiKey.trim() }, () => {
-      // Dispatch a custom event to notify the App component
       window.dispatchEvent(new Event("apiKeyChanged"));
 
       toast.success("API key saved successfully");
 
-      // Force navigation to home page
       navigate("/", { replace: true });
     });
   };
 
-  // Check if the API key already exists in extension storage
   useEffect(() => {
     chrome.storage.local.get("geminiApiKey", (result) => {
       if (result.geminiApiKey) {
@@ -37,12 +33,6 @@ const ApiKeySetup = () => {
       }
     });
   }, []);
-
-  const hasExistingKey = () => {
-    // We can't directly access chrome.storage.local synchronously
-    // So we'll use state to determine if we have a key
-    return !!apiKey;
-  };
 
   return (
     <div className="flex flex-col items-center justify-center h-full p-6 bg-bgColor text-white">
@@ -73,7 +63,7 @@ const ApiKeySetup = () => {
             type="submit"
             className="w-full bg-badgeColor text-badgeTextColor hover:bg-badgeColor/90"
           >
-            {hasExistingKey() ? "Update Key" : "Submit"}
+            Submit
           </Button>
         </form>
 
