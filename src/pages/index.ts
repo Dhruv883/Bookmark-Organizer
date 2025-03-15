@@ -5,3 +5,4 @@ import Reorganize from "./reorganize";
 import SmartFolders from "./auto-categorization";
 
 export { HomePage, CustomPrompt, ViewBookmarks, Reorganize, SmartFolders };
+export { default as ApiKeySetup } from "./ApiKeySetup";

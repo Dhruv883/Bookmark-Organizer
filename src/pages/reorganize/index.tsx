@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Check, FolderTree, Loader2, X, Clock } from "lucide-react";
+import React, { useState } from "react";
+import { Check, FolderTree, Loader2, X } from "lucide-react";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { useBookmarks } from "@/contexts/BookmarkContext";
 import { reorganizeBookmarks } from "@/utils/gemini";
@@ -15,43 +15,6 @@ export default function Reorganize() {
   const [suggestedBookmarks, setSuggestedBookmarks] = useState<
     SimplifiedBookmark[] | null
   >();
-  const [lastReorganized, setLastReorganized] = useState<number | null>(null);
-  const [timeRemaining, setTimeRemaining] = useState<number>(0);
-
-  const COOLDOWN_PERIOD = 2 * 60 * 1000;
-
-  useEffect(() => {
-    const savedLastReorganized = localStorage.getItem("lastReorganized");
-    if (savedLastReorganized) {
-      const timestamp = parseInt(savedLastReorganized, 10);
-      const elapsed = Date.now() - timestamp;
-      if (elapsed < COOLDOWN_PERIOD) {
-        setLastReorganized(timestamp);
-      } else {
-        localStorage.removeItem("lastReorganized");
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    if (lastReorganized) {
-      localStorage.setItem("lastReorganized", lastReorganized.toString());
-
-      const interval = setInterval(() => {
-        const elapsed = Date.now() - lastReorganized;
-        const remaining = Math.max(0, COOLDOWN_PERIOD - elapsed);
-        setTimeRemaining(remaining);
-
-        if (remaining === 0) {
-          setLastReorganized(null);
-          localStorage.removeItem("lastReorganized");
-          clearInterval(interval);
-        }
-      }, 1000);
-
-      return () => clearInterval(interval);
-    }
-  }, [lastReorganized]);
 
   const handleApplyChanges = async () => {
     if (!suggestedBookmarks) return;
@@ -67,34 +30,18 @@ export default function Reorganize() {
   };
 
   const handleReorganization = async () => {
-    if (lastReorganized) {
-      const elapsed = Date.now() - lastReorganized;
-      if (elapsed < COOLDOWN_PERIOD) {
-        toast.error("Please wait before reorganizing again");
-        return;
-      }
-    }
-
     setIsProcessing(true);
     try {
       const suggestedCategories = await reorganizeBookmarks(flatBookmarks);
       if (suggestedCategories) {
         const validBookmarks = convertToBookmarkTree(suggestedCategories);
         setSuggestedBookmarks(validBookmarks);
-        setLastReorganized(Date.now());
       }
     } catch (error: any) {
       toast.error("Unable to reorganize bookmarks");
     } finally {
       setIsProcessing(false);
     }
-  };
-
-  const formatTimeRemaining = (ms: number): string => {
-    const seconds = Math.ceil(ms / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
   };
 
   return (
@@ -152,16 +99,8 @@ export default function Reorganize() {
               <Button
                 className="w-full bg-badgeColor text-badgeTextColor hover:bg-badgeColor/90"
                 onClick={handleReorganization}
-                disabled={!!lastReorganized}
               >
-                {lastReorganized ? (
-                  <>
-                    <Clock className="w-4 h-4 mr-2" />
-                    Wait {formatTimeRemaining(timeRemaining)}
-                  </>
-                ) : (
-                  "Start Reorganization"
-                )}
+                Start Reorganization
               </Button>
             </div>
           </div>
