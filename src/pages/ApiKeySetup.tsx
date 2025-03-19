@@ -29,7 +29,6 @@ const ApiKeySetup = () => {
     chrome.storage.local.get("geminiApiKey", (result) => {
       if (result.geminiApiKey) {
         setApiKey(result.geminiApiKey);
-        toast.info("API key already exists. You can update it if needed.");
       }
     });
   }, []);

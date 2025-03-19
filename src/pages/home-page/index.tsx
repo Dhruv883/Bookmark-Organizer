@@ -12,7 +12,6 @@ import { Breadcrumb } from "@/components/Breadcrumb";
 import { Modal } from "@/components/Modal";
 import { NavigationCard } from "@/components/NavigationCard";
 import { useBookmarks } from "@/contexts/BookmarkContext";
-import { BookmarksTree } from "@/types";
 import { toast } from "sonner";
 
 const navigationItems = [
@@ -41,8 +40,6 @@ const navigationItems = [
     title: "Guided Organization",
     description: "Provide specific instructions",
     to: "/custom-prompt",
-    isDisabled: true,
-    comingSoon: true,
   },
 ];
 
@@ -54,7 +51,7 @@ export default function Home() {
     try {
       if (!originalBookmarks) return;
 
-      await applyBookmarks(originalBookmarks as BookmarksTree);
+      await applyBookmarks(originalBookmarks);
       toast.success("Bookmarks reset successfully");
     } catch (error) {
       toast.error("Error while resetting bookmarks");

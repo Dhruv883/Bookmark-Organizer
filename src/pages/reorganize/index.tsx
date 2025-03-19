@@ -8,6 +8,7 @@ import { BookmarkTree } from "@/components/BookmarkTree";
 import { BookmarksTree, SimplifiedBookmark } from "@/types/";
 import { convertToBookmarkTree } from "@/utils/convertBookmarks";
 import { toast } from "sonner";
+import { applyBookmarks } from "@/utils/bookmarks";
 
 export default function Reorganize() {
   const { flatBookmarks, refreshBookmarks } = useBookmarks();
@@ -23,7 +24,7 @@ export default function Reorganize() {
       await applyBookmarks(suggestedBookmarks as BookmarksTree);
       await refreshBookmarks();
       setSuggestedBookmarks(null);
-      toast.error("Applied bookmarks successfully");
+      toast.success("Applied bookmarks successfully");
     } catch (error) {
       toast.error("Error applying bookmarks");
     }
