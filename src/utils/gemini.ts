@@ -4,9 +4,7 @@ import { getApiKey } from "@/utils/apiUtils";
 
 const MODEL = "gemini-2.0-flash";
 
-export async function reorganizeBookmarks(
-  bookmarks: FlatBookmark[]
-): Promise<any> {
+async function createGeminiClient() {
   const apiKey = await getApiKey();
 
   if (!apiKey) {
@@ -15,89 +13,22 @@ export async function reorganizeBookmarks(
   }
 
   const genAI = new GoogleGenerativeAI(apiKey);
-  const model = genAI.getGenerativeModel({ model: MODEL });
+  return genAI.getGenerativeModel({ model: MODEL });
+}
 
-  const prompt = `Organize these bookmarks into logical categories. Return ONLY a JSON array of objects with this EXACT structure, no other text or explanation:
-
-  [
-    {
-      "name": "Category Name",
-      "bookmarks": [
-        {
-          "title": "Original Title",
-          "url": "Original URL"
-        }
-      ],
-      // optional
-      "subcategories": [
-        {
-          "name": "Subcategory Name",
-          "bookmarks": [
-            {
-              "title": "Original Title",
-              "url": "Original URL"
-            }
-          ]
-        }
-      ]
-    }
-  ]
-
-Rules:
-- ONLY return the JSON array, nothing else.  The entire output must be valid JSON.
-- Every bookmark must be included exactly once.
-- Don't modify any URLs but you can modify titles.
-- Group similar items together logically.
-- Categories should ideally be single words, or at max two words.
-- Nested categories/objects are allowed and ENCOURAGED for further organization (e.g., a "Blogs" category could have subcategories like "Coding", "JavaScript", etc.).
-- TRY TO HAVE AS MASNY SUB-CATEGORIES AS YOU CAN, BUT THEY SHOULD BE MEANINGFUL
-- If a category only has 1 or 2 bookmarks, add them into "Other" categories.
-- Each category mush have only 5-8 bookmarks ideally
-
-Bookmarks to organize:
-${JSON.stringify(bookmarks)};
-`;
-
+async function processGeminiResponse(result: any) {
   try {
-    const result = await model.generateContent(prompt);
     const response = result.response;
     const text = response.text();
-
     const cleanedText = text.replace(/```json|```/g, "");
-    const ans = JSON.parse(cleanedText);
-
-    return ans;
+    return JSON.parse(cleanedText);
   } catch (error: any) {
-    console.error(`Error with model ${MODEL}:`, error);
-
-    if (error.message?.includes("Resource has been exhausted")) {
-      console.error("API rate limit exceeded");
-    }
-
+    console.error(`Error processing Gemini response:`, error);
     return null;
   }
 }
 
-export async function reorganizeBookmarksWithCustomPrompt(
-  bookmarks: FlatBookmark[],
-  customInstructions: string
-): Promise<any> {
-  const apiKey = await getApiKey();
-
-  if (!apiKey) {
-    console.error("No Gemini API key found in extension storage");
-    return null;
-  }
-
-  const genAI = new GoogleGenerativeAI(apiKey);
-  const model = genAI.getGenerativeModel({ model: MODEL });
-
-  const prompt = `Organize these bookmarks into categories according to the following custom instructions:
-
-"${customInstructions}"
-
-Return ONLY a JSON array of objects with this EXACT structure, no other text or explanation:
-
+const getJsonTemplate = () => `
 [
   {
     "name": "Category Name",
@@ -120,7 +51,61 @@ Return ONLY a JSON array of objects with this EXACT structure, no other text or 
       }
     ]
   }
-]
+]`;
+
+export async function reorganizeBookmarks(
+  bookmarks: FlatBookmark[]
+): Promise<any> {
+  const model = await createGeminiClient();
+  if (!model) return null;
+
+  const prompt = `Organize these bookmarks into logical categories. Return ONLY a JSON array of objects with this EXACT structure, no other text or explanation:
+
+  ${getJsonTemplate()}
+
+Rules:
+- ONLY return the JSON array, nothing else.  The entire output must be valid JSON.
+- Every bookmark must be included exactly once.
+- Don't modify any URLs but you can modify titles.
+- Group similar items together logically.
+- Categories should ideally be single words, or at max two words.
+- Nested categories/objects are allowed and ENCOURAGED for further organization (e.g., a "Blogs" category could have subcategories like "Coding", "JavaScript", etc.).
+- TRY TO HAVE AS MASNY SUB-CATEGORIES AS YOU CAN, BUT THEY SHOULD BE MEANINGFUL
+- If a category only has 1 or 2 bookmarks, add them into "Other" categories.
+- Each category mush have only 5-8 bookmarks ideally
+
+Bookmarks to organize:
+${JSON.stringify(bookmarks)};
+`;
+
+  try {
+    const result = await model.generateContent(prompt);
+    return await processGeminiResponse(result);
+  } catch (error: any) {
+    console.error(`Error with model ${MODEL}:`, error);
+
+    if (error.message?.includes("Resource has been exhausted")) {
+      console.error("API rate limit exceeded");
+    }
+
+    return null;
+  }
+}
+
+export async function reorganizeBookmarksWithCustomPrompt(
+  bookmarks: FlatBookmark[],
+  customInstructions: string
+): Promise<any> {
+  const model = await createGeminiClient();
+  if (!model) return null;
+
+  const prompt = `Organize these bookmarks into categories according to the following custom instructions:
+
+"${customInstructions}"
+
+Return ONLY a JSON array of objects with this EXACT structure, no other text or explanation:
+
+${getJsonTemplate()}
 
 Rules:
 - ONLY return the JSON array, nothing else. The entire output must be valid JSON.
@@ -136,13 +121,7 @@ ${JSON.stringify(bookmarks)};
 
   try {
     const result = await model.generateContent(prompt);
-    const response = result.response;
-    const text = response.text();
-
-    const cleanedText = text.replace(/```json|```/g, "");
-    const ans = JSON.parse(cleanedText);
-
-    return ans;
+    return await processGeminiResponse(result);
   } catch (error: any) {
     console.error(`Error with model ${MODEL}:`, error);
 

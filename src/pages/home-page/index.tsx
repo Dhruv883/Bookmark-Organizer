@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   FolderTree,
   Brain,
@@ -8,11 +7,12 @@ import {
   BookmarkIcon,
 } from "lucide-react";
 
-import { Breadcrumb } from "@/components/Breadcrumb";
 import { Modal } from "@/components/Modal";
 import { NavigationCard } from "@/components/NavigationCard";
 import { useBookmarks } from "@/contexts/BookmarkContext";
 import { toast } from "sonner";
+import { applyBookmarks } from "@/utils/bookmarks";
+import { PageLayout } from "@/components/PageLayout";
 
 const navigationItems = [
   {
@@ -60,11 +60,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col h-full bg-bgColor text-[var(--text)]">
-      <div className="px-5 pt-6">
-        <Breadcrumb items={[]} />
-      </div>
-
+    <PageLayout>
       <div className="px-4 flex flex-col gap-4">
         {navigationItems.map((item) => (
           <NavigationCard key={item.title} {...item} />
@@ -89,6 +85,6 @@ export default function Home() {
           structure? This action cannot be undone.
         </p>
       </Modal>
-    </div>
+    </PageLayout>
   );
 }
