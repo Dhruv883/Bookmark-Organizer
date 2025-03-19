@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import { ChevronRight, Folder, ChevronDown, Link } from "lucide-react";
-import { useState } from "react";
 import { Bookmark, BookmarkFolder, SimplifiedBookmark } from "@/types/";
 
 type BookmarkNodeType = Bookmark | SimplifiedBookmark;
@@ -15,8 +14,8 @@ export function BookmarkTree({
   node,
   level = 0,
 }: {
-  node: BookmarkNodeType;
-  level?: number;
+  readonly node: BookmarkNodeType;
+  readonly level?: number;
 }) {
   const [isOpen, setIsOpen] = useState(level < 2);
   const paddingLeft = `${level * 16}px`;
@@ -88,10 +87,9 @@ export function BookmarkTree({
             />
           )}
           <div>
-            {node.children &&
-              node.children.map((child) => (
-                <BookmarkTree key={child.id} node={child} level={level + 1} />
-              ))}
+            {node.children?.map((child) => (
+              <BookmarkTree key={child.id} node={child} level={level + 1} />
+            ))}
           </div>
         </div>
       )}
